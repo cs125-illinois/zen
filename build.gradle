@@ -1,25 +1,32 @@
 apply plugin: 'java-library'
 apply plugin: 'maven'
+apply plugin: 'checkstyle'
 
 group = 'com.github.cs125-illinois'
 
 javadoc {
-  source = sourceSets.main.allJava
-  destinationDir = file('docs')
+    source = sourceSets.main.allJava
+    destinationDir = file('docs')
 }
 task sourcesJar(type: Jar, dependsOn: classes) {
-    classifier = 'sources'
     from sourceSets.main.allSource
+    classifier = 'sources'
 }
 
 task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
     from javadoc.destinationDir
+    classifier = 'javadoc'
 }
 
 artifacts {
     archives sourcesJar
     archives javadocJar
+}
+repositories {
+    jcenter()
+}
+checkstyle {
+    toolVersion "8.1"
 }
 
 // vim: ts=4:sw=4:et:ft=groovy
